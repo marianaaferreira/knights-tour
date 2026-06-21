@@ -54,6 +54,9 @@ int main() {
     } else {
         PasseioDoCavalo passeio(n, true);
 
+        passeio.visualizar = true;
+        passeio.delayMs = 150;
+
         if (passeio.iniciar(x, y, "passeio_backtracking.json"))
             cout << "\nSolucao encontrada!\n";
         else
