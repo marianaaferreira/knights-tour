@@ -1,9 +1,6 @@
 #include "PasseioDoCavalo.h"
 #include "monitor.h"
 #include <algorithm>
-#include <iostream>
-#include <thread>
-#include <chrono>
 
 using namespace std;
 
@@ -81,17 +78,11 @@ bool PasseioDoCavalo::resolver(int x, int y, int passo) {
         tabuleiro[novoX][novoY] = passo;
         registrador.registrar({novoX, novoY}, passo);
 
-        if (visualizar)
-            mostrarTabuleiro();
-
         if (resolver(novoX, novoY, passo + 1))
             return true;
 
         tabuleiro[novoX][novoY] = -1;
         registrador.registrar({novoX, novoY}, -1);
-
-        if (visualizar)
-            mostrarTabuleiro();
     }
 
     return false;
@@ -112,23 +103,4 @@ bool temSolucao(int n) {
     if (n == 1) return true;
     if (n == 2 || n == 3) return false;
     return true;
-}
-
-void PasseioDoCavalo::mostrarTabuleiro() {
-    system("cls");
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-
-            if (tabuleiro[i][j] == -1)
-                cout << ".\t";
-            else
-                cout << tabuleiro[i][j] << "\t";
-        }
-        cout << endl;
-    }
-
-    this_thread::sleep_for(
-        chrono::milliseconds(delayMs)
-    );
 }
