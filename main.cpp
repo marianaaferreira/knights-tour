@@ -9,11 +9,30 @@ using namespace std;
 int main() {
     int n, x, y;
 
+    cout << "Algoritmo:\n";
+    cout << "  1 - Backtracking (com heuristica de Warnsdorff)\n";
+    cout << "  2 - Parberry (divisao e conquista, passeio fechado)\n";
+    cout << "  3 - Rodar testes de desempenho\n";
+    cout << "Escolha: ";
+    int algoritmo;
+    cin >> algoritmo;
+
+    if (algoritmo == 3) {
+        Teste::executar();
+        return 0;
+    }
+
     cout << "Tamanho do tabuleiro: ";
     cin >> n;
 
     if (!temSolucao(n)) {
         cout << "Sem solucao.\n";
+        return 0;
+    }
+
+    if (algoritmo == 2 && !PasseioParberry::tamanhoValido(n)) {
+        cout << "\nParberry exige um tabuleiro de lado par e maior que 6. "
+             << "Nao e possivel para esse tamanho.\n";
         return 0;
     }
 
@@ -23,27 +42,7 @@ int main() {
     cout << "Y inicial: ";
     cin >> y;
 
-    cout << "\nAlgoritmo:\n";
-    cout << "  1 - Backtracking (com heuristica de Warnsdorff)\n";
-    cout << "  2 - Parberry (divisao e conquista, passeio fechado)\n";
-    cout << "  3 - Rodar testes de desempenho\n";
-    cout << "Escolha: ";
-    int algoritmo;
-    cin >> algoritmo;
-
-    if (algoritmo == 3) {
-        // Os testes usam seus proprios tamanhos; ignoram n/x/y digitados acima.
-        Teste::executar();
-        return 0;
-    }
-
     if (algoritmo == 2) {
-        if (!PasseioParberry::tamanhoValido(n)) {
-            cout << "\nParberry exige um tabuleiro de lado par e maior que 6. "
-                 << "Nao e possivel para esse tamanho.\n";
-            return 0;
-        }
-
         PasseioParberry parberry(n);
 
         if (parberry.iniciar(x, y, "passeio_parberry.json"))

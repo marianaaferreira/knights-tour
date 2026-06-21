@@ -1,13 +1,14 @@
 #include "PasseioDoCavalo.h"
+#include "monitor.h"
 #include <algorithm>
 
 using namespace std;
 
-PasseioDoCavalo::PasseioDoCavalo(int tamanho_tabuleiro, bool heuristica)
-    : n(tamanho_tabuleiro),
+PasseioDoCavalo::PasseioDoCavalo(int tamanhoTabuleiro, bool heuristica)
+    : n(tamanhoTabuleiro),
       usarHeuristica(heuristica),
       registrador(heuristica ? "Backtracking (Warnsdorff)" : "Backtracking",
-                  tamanho_tabuleiro) {
+                  tamanhoTabuleiro) {
 
     tabuleiro = vector<vector<int>>(n, vector<int>(n, -1));
 
@@ -35,12 +36,12 @@ int PasseioDoCavalo::contarMovimentos(int x, int y) {
 }
 
 bool PasseioDoCavalo::resolver(int x, int y, int passo) {
+    Monitor::marcarPilha(&x);
     if (passo == n * n)
         return true;
 
     vector<int> ordem;
 
-    // gerar movimentos válidos
     for (int i = 0; i < 8; i++) {
         int novoX = x + movimentos[i].first;
         int novoY = y + movimentos[i].second;
@@ -49,7 +50,6 @@ bool PasseioDoCavalo::resolver(int x, int y, int passo) {
             ordem.push_back(i);
     }
 
-    // ordenar pela heurística de warnsdorff (menos movimentos primeiro)
     if (usarHeuristica) {
         for (int i = 0; i < ordem.size(); i++) {
             for (int j = i + 1; j < ordem.size(); j++) {
@@ -69,7 +69,6 @@ bool PasseioDoCavalo::resolver(int x, int y, int passo) {
         }
     }
 
-    // testar movimentos
     for (int i = 0; i < ordem.size(); i++) {
         int indiceMovimento = ordem[i];
 
@@ -82,7 +81,6 @@ bool PasseioDoCavalo::resolver(int x, int y, int passo) {
         if (resolver(novoX, novoY, passo + 1))
             return true;
 
-        // backtracking
         tabuleiro[novoX][novoY] = -1;
         registrador.registrar({novoX, novoY}, -1);
     }

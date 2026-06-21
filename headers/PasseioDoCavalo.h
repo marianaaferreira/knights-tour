@@ -19,7 +19,7 @@ private:
     bool resolver(int x, int y, int passo);
 
 public:
-    PasseioDoCavalo(int tamanho_tabuleiro, bool heuristica);
+    PasseioDoCavalo(int tamanhoTabuleiro, bool heuristica);
     bool iniciar(int inicioX, int inicioY, const string& arquivoJson,
                  bool salvar = true);
 };

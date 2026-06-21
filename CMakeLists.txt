@@ -10,6 +10,10 @@ add_executable(passeio
     src/PasseioDoCavalo.cpp
     src/PasseioParberry.cpp
     src/teste.cpp
+    src/monitor.cpp
 )
+
+target_link_libraries(passeio psapi)
+target_link_options(passeio PRIVATE -static -static-libgcc -static-libstdc++)
 
 target_include_directories(passeio PRIVATE headers)
